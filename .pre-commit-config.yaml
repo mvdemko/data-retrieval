@@ -1,0 +1,55 @@
+---
+repos:
+    - repo: https://github.com/asottile/reorder_python_imports
+      rev: v3.15.0
+      hooks:
+          - id: reorder-python-imports
+    - repo: https://github.com/asottile/blacken-docs
+      rev: v1.12.1
+      hooks:
+          - id: blacken-docs
+            additional_dependencies: [black==25.1.0]
+    - repo: https://github.com/asottile/pyupgrade
+      rev: v3.3.1
+      hooks:
+          - id: pyupgrade
+    - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
+      rev: 0.2.3
+      hooks:
+          - id: yamlfmt
+    - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
+      rev: v1.4.2
+      hooks:
+          - id: python-safety-dependencies-check
+            files: pyproject.toml
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v5.0.0
+      hooks:
+          - id: check-added-large-files
+          - id: check-docstring-first
+          - id: check-symlinks
+          - id: check-yaml
+          - id: end-of-file-fixer
+          - id: trailing-whitespace
+    - repo: https://github.com/pre-commit/pygrep-hooks
+      rev: v1.10.0
+      hooks:
+          - id: python-use-type-annotations
+          - id: rst-backticks
+          - id: rst-directive-colons
+          - id: rst-inline-touching-normal
+    - repo: https://github.com/PyCQA/flake8
+      rev: 7.3.0
+      hooks:
+          - id: flake8
+            args: [--max-line-length=99]
+    - repo: https://github.com/PyCQA/prospector
+      rev: v1.17.2
+      hooks:
+          - id: prospector
+            args:
+                - --zero-exit
+    - repo: https://github.com/PyCQA/pydocstyle
+      rev: 6.3.0
+      hooks:
+          - id: pydocstyle
