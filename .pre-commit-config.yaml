@@ -1,14 +1,19 @@
 ---
 repos:
-    - repo: https://github.com/asottile/reorder_python_imports
-      rev: v3.15.0
+    - repo: https://github.com/psf/black
+      rev: 25.1.0
       hooks:
-          - id: reorder-python-imports
+          - id: black
     - repo: https://github.com/asottile/blacken-docs
       rev: v1.12.1
       hooks:
           - id: blacken-docs
             additional_dependencies: [black==25.1.0]
+    - repo: https://github.com/pycqa/isort
+      rev: 6.0.1
+      hooks:
+          - id: isort
+            args: [--profile, black, --filter-files]
     - repo: https://github.com/asottile/pyupgrade
       rev: v3.3.1
       hooks:
@@ -49,7 +54,3 @@ repos:
           - id: prospector
             args:
                 - --zero-exit
-    - repo: https://github.com/PyCQA/pydocstyle
-      rev: 6.3.0
-      hooks:
-          - id: pydocstyle

@@ -12,8 +12,16 @@ dependencies = [
     "black (>=25.1.0,<26.0.0)",
     "tomli (>=2.2.1,<3.0.0)",
     "pip (>=25.1.1,<26.0.0)",
-    "toml (>=0.10.2,<0.11.0)"
+    "toml (>=0.10.2,<0.11.0)",
+    "beautifulsoup4 (>=4.13.4,<5.0.0)",
+    "selenium (>=4.34.2,<5.0.0)",
+    "webdriver-manager (>=4.0.2,<5.0.0)",
+    "pydantic (>=2.11.7,<3.0.0)",
+    "isort (>=6.0.1,<7.0.0)"
 ]
+
+[tool.isort]
+profile = "black"
 
 [tool.poetry]
 packages = [{include = "data_retrieval", from = "src"}]
@@ -24,6 +32,3 @@ poetry-plugin-export = ">=1.8"
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.pydocstyle]
-convention = "numpy"
