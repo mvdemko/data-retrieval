@@ -21,6 +21,9 @@ dependencies = [
     "argparse (>=1.4.0,<2.0.0)"
 ]
 
+[project.scripts]
+retrieve-socal-adult-tournament-data = "data_retrieval.usta.tournaments.scripts.get_usta_socal_adult_tournament_data:main"
+
 [tool.isort]
 profile = "black"
 
