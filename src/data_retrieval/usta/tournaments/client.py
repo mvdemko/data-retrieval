@@ -1,5 +1,4 @@
-"""A script that retrieves USTA tournament data."""
-
+import logging
 import time
 
 from bs4 import BeautifulSoup
@@ -22,6 +21,11 @@ from data_retrieval.usta.tournaments.models.section import Section
 from data_retrieval.usta.tournaments.models.tournament import Tournament
 from data_retrieval.usta.tournaments.models.tournament_status import TournamentStatus
 
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
+
 BASE_URL = "https://playtennis.usta.com"
 
 
@@ -39,6 +43,7 @@ def fetch_tournaments(category: str, section: str) -> list[Tournament]:
 
         results = soup.find("div", class_="csa-results")
         tournaments = results.find_all("div", class_="csa-search-result-item")
+        logging.info(f"{len(tournaments)} tournaments found")
 
         return get_tournaments(tournaments, driver)
 
@@ -153,8 +158,9 @@ def click_search_button(driver: ChromeDriverManager) -> None:
 def get_webdriver() -> ChromeDriverManager:
     chrome_options = webdriver.ChromeOptions()
     prefs = {
-        "profile.default_content_setting_values.geolocation": 2  # 1: allow, 2: block
+        "profile.default_content_setting_values.geolocation": 2  # 1: allow, 2: block,
     }
+    chrome_options.add_argument("--headless=new")
     chrome_options.add_experimental_option("prefs", prefs)
 
     service = Service(ChromeDriverManager().install())
