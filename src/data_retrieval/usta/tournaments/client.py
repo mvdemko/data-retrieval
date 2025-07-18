@@ -29,9 +29,9 @@ logging.basicConfig(
 BASE_URL = "https://playtennis.usta.com"
 
 
-def fetch_tournaments(category: str, section: str) -> list[Tournament]:
+def fetch_tournaments(category: Category, section: Section) -> list[Tournament]:
     driver = get_webdriver()
-    search_url = construct_search_url(Category(category), Section(section))
+    search_url = construct_search_url(category, section)
 
     try:
         driver.get(search_url)
