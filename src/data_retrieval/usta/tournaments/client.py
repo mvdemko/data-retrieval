@@ -88,6 +88,8 @@ def get_tournaments(
             except Exception as e:
                 print(f"Failed to retrieve tournament data: {e}")
 
+    return tournaments
+
 
 def get_tournament_players(
     tournament_players_url: str, driver: ChromeDriverManager
