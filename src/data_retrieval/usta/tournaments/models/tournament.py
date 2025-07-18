@@ -38,7 +38,6 @@ class Tournament(BaseModel):
 
     name: str  # TODO: Separate name and address
     url: str
-    level: int = None
     facility: Facility
     status: TournamentStatus
     dates: str  # TODO: Parse this and turn into a date object

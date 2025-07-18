@@ -105,46 +105,4 @@ DISTRICT_SECTIONS = {
 
 class Facility(BaseModel):
     location: str
-    section: Section = None
-    district: District = None
 
-    def __init__(self, **data):
-        """
-        Construct all the necessary attributes for the facility object.
-
-        Parameters
-        ----------
-        location : str
-            The name and address of the facility.
-        district : str
-            The district in which the facility is located. District is subdivision of section.
-            Texas is the only section that is not subdivided into smaller sections. Idaho
-            is associated with two different sections (Pacific NW and Intermountain); we will
-            assign Idaho to the Intermountain section.
-        section : str
-            The section in which the facility is located.
-
-        Returns
-        -------
-        None
-        """
-        super().__init__(**data)
-        if self.district is not None:
-            self.section = DISTRICT_SECTIONS[self.district]
-
-    def __str__(self):
-        """
-        Print the facility details.
-
-        Returns
-        -------
-        str
-            The facility details.
-        """
-        description = (
-            f"Section: {self.section.value}\n"
-            f"District: {self.district.value}\n"
-            f"Facility: {self.name} {self.address}"
-        )
-
-        return description
