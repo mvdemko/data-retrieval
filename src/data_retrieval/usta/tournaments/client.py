@@ -188,5 +188,6 @@ def _is_valid_event(text: str) -> bool:
     return (
         not '(' in text
         and not ')' in text
+        and not 'Looking' in text
         and text
     )
