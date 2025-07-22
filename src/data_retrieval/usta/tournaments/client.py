@@ -186,7 +186,7 @@ def get_valid_events(events: str) -> list[str]:
 
 def _is_valid_event(text: str) -> bool:
     return (
-        text.startswith(Gender.MEN.value)
-        or text.startswith(Gender.WOMEN.value)
-        or text.startswith(Gender.MIXED.value)
+        not '(' in text
+        and not ')' in text
+        and text
     )
