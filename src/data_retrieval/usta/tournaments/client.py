@@ -1,4 +1,5 @@
 import logging
+import re
 import time
 
 from bs4 import BeautifulSoup
@@ -22,7 +23,7 @@ from data_retrieval.usta.tournaments.models.tournament import Tournament
 from data_retrieval.usta.tournaments.models.tournament_status import TournamentStatus
 
 logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+    level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
 
@@ -53,7 +54,7 @@ def fetch_tournaments(category: Category, section: Section) -> list[Tournament]:
 
 
 def get_tournaments(
-    search_results: list, driver: ChromeDriverManager
+    search_results: list, driver: webdriver.Chrome
 ) -> list[Tournament]:
     tournaments = []
     for entry in search_results:
@@ -92,10 +93,17 @@ def get_tournaments(
 
 
 def get_tournament_players(
-    tournament_players_url: str, driver: ChromeDriverManager
+    tournament_players_url: str, driver: webdriver.Chrome
 ) -> list[Player]:
     driver.get(tournament_players_url)
-    time.sleep(2)
+    try:
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "player-list"))
+        )
+    except Exception:
+        logging.warning("Player table not found at %s", tournament_players_url)
+        return []
+    
     page_source = driver.page_source
     soup = BeautifulSoup(page_source, "html.parser")
 
@@ -103,10 +111,11 @@ def get_tournament_players(
     player_table = soup.find("table", id="player-list")
     if player_table:
         for entry in player_table.find_all("tr"):
-            table_data = entry.find("td", class_="_alignLeft_1nqit_268")
+            table_data = entry.find("td", class_=re.compile(r"^_alignLeft_"))
             if table_data:
                 players.append(get_player_information(table_data))
 
+    logging.debug("Player list: %s", players)
     return players
 
 
@@ -115,7 +124,7 @@ def get_player_information(table_data) -> Player:
     strong = table_data.find("strong")
     if strong and strong.a:
         name = strong.a.text.strip()
-        event_td = table_data.find_next_sibling("td", class_="_alignLeft_1nqit_268")
+        event_td = table_data.find_next_sibling("td", class_=re.compile(r"^_alignLeft_"))
         events = event_td.get_text(separator=",", strip=True) if event_td else ""
         valid_events = get_valid_events(events)
         player = Player.model_validate({"name": name, "events": valid_events})
@@ -130,7 +139,7 @@ def get_tournament_status(descriptions: str) -> TournamentStatus:
     return TournamentStatus(registration_status)
 
 
-def expand_search_results(driver: ChromeDriverManager) -> None:
+def expand_search_results(driver: webdriver.Chrome) -> None:
     path = (
         "//div[@class='csa-show-more-wrap']//"
         "button[contains(text(), 'Show more results')]"
@@ -146,7 +155,7 @@ def expand_search_results(driver: ChromeDriverManager) -> None:
             break
 
 
-def click_search_button(driver: ChromeDriverManager) -> None:
+def click_search_button(driver: webdriver.Chrome) -> None:
     try:
         search_button = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.CLASS_NAME, "button-text"))

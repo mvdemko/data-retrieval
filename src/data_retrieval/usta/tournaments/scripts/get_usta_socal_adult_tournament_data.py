@@ -5,3 +5,6 @@ from data_retrieval.usta.tournaments.models.section import Section
 
 def main():
     return tournament_client.fetch_tournaments(Category.ADULT, Section.SOUTHERN_CALIFORNIA)
+
+if __name__ == "__main__":
+    main()
