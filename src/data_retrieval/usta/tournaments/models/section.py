@@ -21,7 +21,7 @@ class Section(Enum):
     MISSOURI_VALLEY = "Missouri Valley"
     NEW_ENGLAND = "New England"
     NORTHERN = "Northern"
-    NORTHERN_CALIFORNIA = "Northwen California"
+    NORTHERN_CALIFORNIA = "Northern California"
     PACIFIC_NW = "Pacific Northwest"
     SOUTHERN = "Southern"
     SOUTHERN_CALIFORNIA = "Southern California"
