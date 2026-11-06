@@ -23,7 +23,7 @@ from data_retrieval.usta.tournaments.models.tournament import Tournament
 from data_retrieval.usta.tournaments.models.tournament_status import TournamentStatus
 
 logging.basicConfig(
-    level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s"
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
 
